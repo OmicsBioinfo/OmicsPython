@@ -4,9 +4,6 @@ from tkinter import Tk, filedialog, messagebox, Button, Label, StringVar
 from generador_html import generar_html  # Importar la función desde el archivo separado
 
 def seleccionar_archivo():
-    """
-    Función para seleccionar un archivo FASTA mediante un diálogo de archivo.
-    """
     archivo = filedialog.askopenfilename(
         title="Seleccionar archivo FASTA",
         filetypes=(("Archivos FASTA", "*.fasta"), ("Todos los archivos", "*.*"))
@@ -16,16 +13,14 @@ def seleccionar_archivo():
         global archivo_seleccionado
         archivo_seleccionado = archivo
 
+# Para generar el reporte en HTML 
 def generar_reporte():
-    """
-    Función para ejecutar BLAST, procesar los resultados y generar un reporte HTML.
-    """
     if not archivo_seleccionado:
         messagebox.showerror("Error", "Selecciona un archivo FASTA antes de continuar.")
         return
 
-    # BLAST search (ajusta los parámetros según tu configuración)
-    base_datos = "genes_resistencia_db"  # Cambia esto al nombre de tu base BLAST
+    # Búsqueda de BLAST
+    base_datos = "genes_resistencia_db"  
     salida_blast = "resultado_blast.txt"
     comando_blast = f"blastn -query {archivo_seleccionado} -db {base_datos} -out {salida_blast} -outfmt '6 qseqid sseqid pident length qstart qend'"
 
@@ -50,7 +45,7 @@ def generar_reporte():
             if pident != 100.00:
                 continue
 
-            # Extraer identificador y nombre de la bacteria
+            # Extraer identificador Y nombre de los genes 
             identificador = sseqid.split("|")[1] if "|" in sseqid else sseqid
             gene_name = sseqid.split("|")[-1].split("[")[0].strip()
 
@@ -67,7 +62,7 @@ def generar_reporte():
 
     messagebox.showinfo("Éxito", "Reporte HTML generado correctamente.")
 
-# Interfaz gráfica con Tkinter
+# Ahora generamos la Interfaz gráfica con Tkinter
 app = Tk()
 app.title("Análisis de Genes de Resistencia")
 app.geometry("500x200")
