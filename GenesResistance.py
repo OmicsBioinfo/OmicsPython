@@ -1,7 +1,8 @@
+# Primero importamos todas las librerías
 import os
 import subprocess
 from tkinter import Tk, filedialog, messagebox, Button, Label, StringVar
-from generador_html import generar_html  # Importar la función desde el archivo separado
+from generador_html import generar_html  # Importar la función del otro archivo de python para HTML
 
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(
